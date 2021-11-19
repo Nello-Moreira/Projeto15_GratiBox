@@ -10,6 +10,10 @@ const HomeCoverContainer = styled.div`
 	align-items: center;
 	overflow: hidden;
 
+	h2 {
+		text-align: center;
+	}
+
 	img {
 		height: 100%;
 		position: absolute;
