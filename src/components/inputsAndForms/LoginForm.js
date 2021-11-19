@@ -4,13 +4,10 @@ import LoginFormStyle from './LoginFormStyle';
 import TextInput from './TextInput';
 import DefaultButton from '../buttons/DefaultButton';
 
-export default function SignUpForm({ loading, setLoading }) {
+export default function LoginForm({ loading, setLoading }) {
 	const [inputs, setInputs] = useState({
-		name: '',
 		email: '',
 		password: '',
-		passwordCheck: '',
-		avatarUrl: '',
 	});
 
 	function inputModifier(field, newValue) {
@@ -27,36 +24,11 @@ export default function SignUpForm({ loading, setLoading }) {
 
 		setLoading(true);
 
-		if (!(inputs.password === inputs.passwordCheck)) {
-			inputModifier('password', '');
-			inputModifier('passwordCheck', '');
-			setLoading(false);
-
-			alert(
-				'As senhas inseridas não conferem. Por favor, insira as senhas novamente.'
-			);
-			return;
-		}
-
-		let requestBody = { ...inputs };
-		delete requestBody.passwordCheck;
-
 		setLoading(false);
 	}
 
 	return (
 		<LoginFormStyle onSubmit={formSubmit}>
-			<TextInput
-				name='name'
-				value={inputs.name}
-				onChange={event => inputModifier('name', event.target.value)}
-				placeholder='Nome'
-				type='text'
-				$autoComplete={true}
-				required={true}
-				$loading={loading}
-			/>
-
 			<TextInput
 				name='email'
 				value={inputs.email}
@@ -80,20 +52,8 @@ export default function SignUpForm({ loading, setLoading }) {
 				$loading={loading}
 			/>
 
-			<TextInput
-				name='passwordCheck'
-				value={inputs.passwordCheck}
-				onChange={event =>
-					inputModifier('passwordCheck', event.target.value)
-				}
-				placeholder='Confirme a senha'
-				type='password'
-				required={true}
-				$loading={loading}
-			/>
-
 			<DefaultButton type='submit' $loading={loading}>
-				Cadastrar
+				Entrar
 			</DefaultButton>
 		</LoginFormStyle>
 	);

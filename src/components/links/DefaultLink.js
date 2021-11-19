@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 export default function DefaultLink({
 	to,
@@ -7,14 +7,20 @@ export default function DefaultLink({
 	$customStyle = {},
 	children,
 }) {
+	const navigate = useNavigate();
+
 	return (
-		<LinkStyle to={to} $loading={$loading} $customStyle={$customStyle}>
+		<LinkStyle
+			onClick={$loading ? null : () => navigate(to)}
+			$loading={$loading}
+			$customStyle={$customStyle}
+		>
 			{children}
 		</LinkStyle>
 	);
 }
 
-const LinkStyle = styled(Link)`
+const LinkStyle = styled.a`
 	font-weight: 700;
 	font-size: 18px;
 	text-decoration: none;
