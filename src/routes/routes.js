@@ -4,12 +4,10 @@ const routes = {
 	signUp: '/cadastrar',
 	nonSubscriber: '/nao-assinante',
 	subscriber: '/meu-plano',
-	subscribe: '/assinar/*',
-	planInformations: 'informacoes-do-plano',
-	address: 'endereco',
-	feedback: '/avaliacao/*',
-	rating: 'nota',
-	feedbackDetails: 'detalhes',
+	planInformations: '/assinar/informacoes-do-plano',
+	addressInformations: '/assinar/endereco',
+	rating: '/avaliacao/nota',
+	feedbackDetails: '/avaliacao/mais-detalhes',
 };
 
 export default routes;

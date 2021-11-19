@@ -7,8 +7,10 @@ import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import NonSubscriber from './routes/NonSubscriber';
 import Subscriber from './routes/Subscriber';
-import Subscribe from './routes/Subscribe';
-import Feedback from './routes/Feedback';
+import PlanInformations from './routes/PlanInformations';
+import AddressInformations from './routes/AddressInformations';
+import Rating from './routes/Rating';
+import FeedbackDetails from './routes/FeedbackDetails';
 
 export default function App() {
 	return (
@@ -27,9 +29,22 @@ export default function App() {
 
 					<Route path={routes.subscriber} element={<Subscriber />} />
 
-					<Route path={routes.subscribe} element={<Subscribe />} />
+					<Route
+						path={routes.planInformations}
+						element={<PlanInformations />}
+					/>
 
-					<Route path={routes.feedback} element={<Feedback />} />
+					<Route
+						path={routes.addressInformations}
+						element={<AddressInformations />}
+					/>
+
+					<Route path={routes.rating} element={<Rating />} />
+
+					<Route
+						path={routes.feedbackDetails}
+						element={<FeedbackDetails />}
+					/>
 
 					<Route path={routes.home} element={<Home />} />
 

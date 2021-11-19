@@ -17,7 +17,7 @@ export default function WeeklyPlanSubscribeCard() {
 				Você recebe um box por semana. Ideal para quem quer exercer a
 				gratidão todos os dias.
 			</p>
-			<DefaultButton onClick={() => navigate(routes.subscribe)}>
+			<DefaultButton onClick={() => navigate(routes.planInformations)}>
 				Assinar
 			</DefaultButton>
 		</CardStyle>
