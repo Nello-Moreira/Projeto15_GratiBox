@@ -5,6 +5,7 @@ import image03 from '../../../assets/image03.jpg';
 import WhiteCard from '../WhiteCard';
 import SectionTitle from './SectionTitle';
 import SectionContentRadioInput from './SectionContentRadioInput';
+import SectionContentCheckboxInput from './SectionContentCheckboxInput';
 
 export default function PlanInformationsCard() {
 	const [openSections, setOpenSections] = useState({
@@ -25,9 +26,9 @@ export default function PlanInformationsCard() {
 	]);
 
 	const [productOptions, setProductOptions] = useState([
-		{ option: 'Chás', checked: false },
-		{ option: 'Incensos', checked: false },
-		{ option: 'Produtos Orgânicos', checked: false },
+		{ option: 'Chás', checked: true },
+		{ option: 'Incensos', checked: true },
+		{ option: 'Produtos Orgânicos', checked: true },
 	]);
 
 	useEffect(() => {
@@ -108,6 +109,13 @@ export default function PlanInformationsCard() {
 				>
 					Quero receber
 				</SectionTitle>
+
+				<SectionContentCheckboxInput
+					isOpen={openSections.products}
+					sectionName={'products'}
+					inputs={productOptions}
+					saveValue={setProductOptions}
+				/>
 			</section>
 		</PlanInformationsCardStyle>
 	);
