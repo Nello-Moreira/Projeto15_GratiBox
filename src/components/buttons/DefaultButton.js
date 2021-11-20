@@ -5,7 +5,7 @@ const DefaultButton = styled.button`
 	font-weight: 500;
 	color: #ffffff;
 	background-color: #8c97ea;
-	border: none;
+	border: 1px solid #333f91;
 	border-radius: 10px;
 	cursor: ${({ $loading }) => ($loading ? 'default' : 'pointer')};
 `;
