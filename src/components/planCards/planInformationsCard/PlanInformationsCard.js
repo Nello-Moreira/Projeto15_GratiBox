@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import image03 from '../../../assets/image03.jpg';
 import WhiteCard from '../WhiteCard';
@@ -14,9 +14,42 @@ export default function PlanInformationsCard() {
 	});
 
 	const [planOptions, setPlanOptions] = useState([
-		{ option: 'Semanal', checked: false },
+		{ option: 'Semanal', checked: true },
 		{ option: 'Mensal', checked: false },
 	]);
+
+	const [deliveryOptions, setDeliveryOptions] = useState([
+		{ option: 'Segunda-feira', checked: true },
+		{ option: 'Quarta-feira', checked: false },
+		{ option: 'Sexta-feira', checked: false },
+	]);
+
+	const [productOptions, setProductOptions] = useState([
+		{ option: 'Chás', checked: false },
+		{ option: 'Incensos', checked: false },
+		{ option: 'Produtos Orgânicos', checked: false },
+	]);
+
+	useEffect(() => {
+		const weekOptions = ['Segunda-feira', 'Quarta-feira', 'Sexta-feira'];
+		const monthOptions = ['Dia 1', 'Dia 10', 'Dia 20'];
+
+		if (planOptions.find(item => item.option === 'Semanal').checked) {
+			setDeliveryOptions(
+				deliveryOptions.map((item, i) => ({
+					...item,
+					option: weekOptions[i],
+				}))
+			);
+			return;
+		}
+		setDeliveryOptions(
+			deliveryOptions.map((item, i) => ({
+				...item,
+				option: monthOptions[i],
+			}))
+		);
+	}, [planOptions]);
 
 	return (
 		<PlanInformationsCardStyle>
@@ -33,6 +66,7 @@ export default function PlanInformationsCard() {
 				>
 					Plano
 				</SectionTitle>
+
 				<SectionContentRadioInput
 					isOpen={openSections.plan}
 					sectionName={'plan'}
@@ -53,6 +87,13 @@ export default function PlanInformationsCard() {
 				>
 					Entrega
 				</SectionTitle>
+
+				<SectionContentRadioInput
+					isOpen={openSections.delivery}
+					sectionName={'delivery'}
+					inputs={deliveryOptions}
+					saveValue={setDeliveryOptions}
+				/>
 			</section>
 
 			<section>
