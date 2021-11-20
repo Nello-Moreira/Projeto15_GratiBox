@@ -1,9 +1,16 @@
+import styled from 'styled-components';
+import { useNavigate } from 'react-router';
+
+import routes from './routes';
+
 import PageContainer from '../components/containers/PageContainer';
 import PageTitle from '../components/titles/PageTitle';
 import PageSubTitle from '../components/titles/PageSubTitle';
 import PlanInformationsCard from '../components/planCards/planInformationsCard/PlanInformationsCard';
+import DefaultButton from '../components/buttons/DefaultButton';
 
 export default function PlanInformations() {
+	const navigate = useNavigate();
 	return (
 		<PageContainer>
 			<PageTitle>Bom te ver por aqui, @User.</PageTitle>
@@ -13,6 +20,17 @@ export default function PlanInformations() {
 			</PageSubTitle>
 
 			<PlanInformationsCard />
+
+			<NextPageButton
+				onClick={() => navigate(routes.addressInformations)}
+			>
+				Próximo
+			</NextPageButton>
 		</PageContainer>
 	);
 }
+
+const NextPageButton = styled(DefaultButton)`
+	padding: 10px 20px;
+	margin-top: 15px;
+`;
