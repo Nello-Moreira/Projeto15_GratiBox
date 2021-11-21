@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 import image03 from '../../../assets/image03.jpg';
 import WhiteCard from '../WhiteCard';
-import SectionTitle from './SectionTitle';
+import SectionTitle from '../SectionTitle';
 import SectionContentRadioInput from './SectionContentRadioInput';
 import SectionContentCheckboxInput from './SectionContentCheckboxInput';
 

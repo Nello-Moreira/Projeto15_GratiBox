@@ -16,7 +16,7 @@ export default function SectionTitle({ isOpen, changeState, children }) {
 const SectionTitleStyle = styled.div`
 	color: #4d65a8;
 	font-weight: 700;
-	width: 100%;
+	width: ${({ $width }) => $width || '100%'};
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

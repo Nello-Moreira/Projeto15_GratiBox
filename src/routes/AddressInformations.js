@@ -1,3 +1,56 @@
-export default function Address({ state }) {
-	return <div>{state}</div>;
+import styled from 'styled-components';
+import { useNavigate } from 'react-router';
+import { useState } from 'react';
+
+import routes from './routes';
+
+import PageContainer from '../components/containers/PageContainer';
+import PageTitle from '../components/titles/PageTitle';
+import PageSubTitle from '../components/titles/PageSubTitle';
+import AddressInformationsCard from '../components/planCards/addressInformationsCard/AddressInformationsCard';
+import DefaultButton from '../components/buttons/DefaultButton';
+
+export default function Address() {
+	const [loading, setLoading] = useState(false);
+	const [address, setAddress] = useState({
+		name: '',
+		streetName: '',
+		zipCode: '',
+		city: '',
+		state: '',
+	});
+	const navigate = useNavigate();
+
+	function subscribe() {
+		if (loading) return;
+		if (Object.values(address).includes('')) {
+			alert('Preencha todos os campos');
+			return;
+		}
+		setLoading(true);
+		navigate(routes.subscriber);
+	}
+
+	return (
+		<PageContainer>
+			<PageTitle>Bom te ver por aqui, @User.</PageTitle>
+
+			<PageSubTitle>
+				“Agradecer é arte de atrair coisas boas”
+			</PageSubTitle>
+
+			<AddressInformationsCard
+				loading={loading}
+				address={address}
+				setAddress={setAddress}
+			/>
+
+			<NextPageButton onClick={subscribe}>Finalizar</NextPageButton>
+		</PageContainer>
+	);
 }
+
+const NextPageButton = styled(DefaultButton)`
+	padding: 10px 20px;
+	margin-top: 15px;
+`;
