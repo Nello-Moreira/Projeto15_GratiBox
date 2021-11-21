@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 
 import image03 from '../../../assets/image03.jpg';
 import WhiteCard from '../WhiteCard';

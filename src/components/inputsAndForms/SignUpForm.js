@@ -1,16 +1,21 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import routes from '../../routes/routes';
 
 import LoginFormStyle from './LoginFormStyle';
 import TextInput from './TextInput';
 import DefaultButton from '../buttons/DefaultButton';
 
+import { postSignUp } from '../../services/dataAPI';
+import { signUpErrors } from '../../helpers/responseErrors';
+
 export default function SignUpForm({ loading, setLoading }) {
+	const navigate = useNavigate();
 	const [inputs, setInputs] = useState({
 		name: '',
 		email: '',
 		password: '',
 		passwordCheck: '',
-		avatarUrl: '',
 	});
 
 	function inputModifier(field, newValue) {
@@ -41,6 +46,14 @@ export default function SignUpForm({ loading, setLoading }) {
 		let requestBody = { ...inputs };
 		delete requestBody.passwordCheck;
 
+		postSignUp(requestBody)
+			.then(response => {
+				alert('Usuário cadastrado com sucesso');
+				navigate(routes.login);
+			})
+			.catch(error => {
+				alert(signUpErrors(error));
+			});
 		setLoading(false);
 	}
 
