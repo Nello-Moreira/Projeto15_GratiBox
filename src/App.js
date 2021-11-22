@@ -17,7 +17,11 @@ import FeedbackDetails from './routes/FeedbackDetails';
 import UserContext from './contexts/UserContext';
 
 export default function App() {
-	const [user, setUser] = useState({ name: '', token: '', planType: '' });
+	const [user, setUser] = useState({
+		name: null,
+		token: null,
+		planType: null,
+	});
 	return (
 		<>
 			<GlobalStyle />

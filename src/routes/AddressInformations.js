@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router';
-import { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+import { useState, useContext, useEffect } from 'react';
+import UserContext from '../contexts/UserContext';
 import routes from './routes';
 
 import PageContainer from '../components/containers/PageContainer';
@@ -20,6 +21,13 @@ export default function Address() {
 		state: '',
 	});
 	const navigate = useNavigate();
+	const { user } = useContext(UserContext);
+
+	useEffect(() => {
+		if (!user.token) {
+			navigate(routes.home);
+		}
+	}, [user.token]);
 
 	function subscribe() {
 		if (loading) return;
@@ -33,7 +41,7 @@ export default function Address() {
 
 	return (
 		<PageContainer>
-			<PageTitle>Bom te ver por aqui, @User.</PageTitle>
+			<PageTitle>Bom te ver por aqui, {user.name}.</PageTitle>
 
 			<PageSubTitle>
 				“Agradecer é arte de atrair coisas boas”
