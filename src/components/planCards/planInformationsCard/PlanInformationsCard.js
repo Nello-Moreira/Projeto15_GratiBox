@@ -68,7 +68,6 @@ export default function PlanInformationsCard() {
 			...subscription,
 			selectedProducts: selectedOptions.map(option => option.name),
 		});
-		console.log(subscription);
 	}, [productOptions]);
 
 	function planOptionsHandler(options) {

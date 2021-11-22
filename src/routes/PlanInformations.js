@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { useState, useContext, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
+import SubscriptionContext from '../contexts/SubscriptionContext';
 import routes from './routes';
 
 import CircleLoader from '../components/loaders/CircleLoader';
@@ -14,6 +15,8 @@ import DefaultButton from '../components/buttons/DefaultButton';
 
 export default function PlanInformations() {
 	const { user } = useContext(UserContext);
+	const { subscription } = useContext(SubscriptionContext);
+
 	const navigate = useNavigate();
 	const [pageFirstLoad, setPageFirstLoad] = useState(true);
 
@@ -23,6 +26,19 @@ export default function PlanInformations() {
 		}
 		setPageFirstLoad(false);
 	}, [user.token]);
+
+	function checkSelectedPlanInformations() {
+		if (!subscription.planType) {
+			return alert('Selecione um tipo de plano');
+		}
+		if (!subscription.deliveryOption) {
+			return alert('Selecione uma opção de entrega');
+		}
+		if (subscription.selectedProducts.length === 0) {
+			return alert('Selecione ao menos um produto');
+		}
+		navigate(routes.addressInformations);
+	}
 
 	return pageFirstLoad ? (
 		<CircleLoader />
@@ -36,9 +52,7 @@ export default function PlanInformations() {
 
 			<PlanInformationsCard />
 
-			<NextPageButton
-				onClick={() => navigate(routes.addressInformations)}
-			>
+			<NextPageButton onClick={checkSelectedPlanInformations}>
 				Próximo
 			</NextPageButton>
 		</PageContainer>
