@@ -1,12 +1,16 @@
 import image02 from '../../assets/image02.jpg';
 
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import routes from '../../routes/routes';
 
 import PinkCard from './PinkCard';
 import DefaultButton from '../buttons/DefaultButton';
 
+import SubscriptionContext from '../../contexts/SubscriptionContext';
+
 export default function MonthlyPlanSubscribeCard() {
+	const { subscription, setSubscription } = useContext(SubscriptionContext);
 	const navigate = useNavigate();
 
 	return (
@@ -20,7 +24,15 @@ export default function MonthlyPlanSubscribeCard() {
 				Ideal para quem está começando agora.
 			</p>
 
-			<DefaultButton onClick={() => navigate(routes.planInformations)}>
+			<DefaultButton
+				onClick={() => {
+					setSubscription({
+						...setSubscription,
+						planType: 'Mensal',
+					});
+					navigate(routes.planInformations);
+				}}
+			>
 				Assinar
 			</DefaultButton>
 		</PinkCard>

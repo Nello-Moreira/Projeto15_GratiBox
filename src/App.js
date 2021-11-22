@@ -15,6 +15,7 @@ import Rating from './routes/Rating';
 import FeedbackDetails from './routes/FeedbackDetails';
 
 import UserContext from './contexts/UserContext';
+import SubscriptionContext from './contexts/SubscriptionContext';
 
 export default function App() {
 	const [user, setUser] = useState({
@@ -22,51 +23,67 @@ export default function App() {
 		token: null,
 		planType: null,
 	});
+	const [subscription, setSubscription] = useState({
+		planType: null,
+		deliveryOption: null,
+		selectedProducts: [],
+		address: {
+			name: '',
+			streetName: '',
+			zipCode: '',
+			city: '',
+			state: '',
+		},
+	});
 	return (
 		<>
 			<GlobalStyle />
 			<UserContext.Provider value={{ user, setUser }}>
-				<BrowserRouter>
-					<Routes>
-						<Route path={routes.login} element={<Login />} />
+				<SubscriptionContext.Provider
+					value={{ subscription, setSubscription }}
+				>
+					<BrowserRouter>
+						<Routes>
+							<Route path={routes.login} element={<Login />} />
 
-						<Route path={routes.signUp} element={<SignUp />} />
+							<Route path={routes.signUp} element={<SignUp />} />
 
-						<Route
-							path={routes.nonSubscriber}
-							element={<NonSubscriber />}
-						/>
+							<Route
+								path={routes.subscriber}
+								element={<Subscriber />}
+							/>
 
-						<Route
-							path={routes.subscriber}
-							element={<Subscriber />}
-						/>
+							<Route path={routes.rating} element={<Rating />} />
 
-						<Route
-							path={routes.planInformations}
-							element={<PlanInformations />}
-						/>
+							<Route
+								path={routes.feedbackDetails}
+								element={<FeedbackDetails />}
+							/>
 
-						<Route
-							path={routes.addressInformations}
-							element={<AddressInformations />}
-						/>
+							<Route
+								path={routes.nonSubscriber}
+								element={<NonSubscriber />}
+							/>
 
-						<Route path={routes.rating} element={<Rating />} />
+							<Route
+								path={routes.planInformations}
+								element={<PlanInformations />}
+							/>
 
-						<Route
-							path={routes.feedbackDetails}
-							element={<FeedbackDetails />}
-						/>
+							<Route
+								path={routes.addressInformations}
+								element={<AddressInformations />}
+							/>
 
-						<Route path={routes.home} element={<Home />} />
+							<Route path={routes.home} element={<Home />} />
 
-						<Route
-							path='*'
-							element={<Navigate to={routes.home} />}
-						/>
-					</Routes>
-				</BrowserRouter>
+							<Route
+								path='*'
+								element={<Navigate to={routes.home} />}
+							/>
+						</Routes>
+					</BrowserRouter>
+				</SubscriptionContext.Provider>
 			</UserContext.Provider>
 		</>
 	);

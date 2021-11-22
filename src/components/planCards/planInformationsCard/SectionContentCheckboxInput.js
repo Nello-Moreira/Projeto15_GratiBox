@@ -8,7 +8,7 @@ export default function SectionContentCheckboxInput({
 }) {
 	function clickHandler(event) {
 		const newInputsState = inputs.map(input => {
-			if (input.option === event.target.value) {
+			if (input.name === event.target.value) {
 				input.checked = !input.checked;
 				return input;
 			}
@@ -21,17 +21,17 @@ export default function SectionContentCheckboxInput({
 	return (
 		<SectionContentStyle isOpen={isOpen}>
 			{inputs.map((input, i) => (
-				<label htmlFor={input.option} key={input.option}>
+				<label htmlFor={input.name} key={input.name}>
 					<input
 						type='checkbox'
 						name={sectionName}
-						value={input.option}
+						value={input.name}
 						checked={input.checked}
 						onChange={clickHandler}
-						id={input.option}
+						id={input.name}
 						key={i}
 					/>{' '}
-					{input.option}
+					{input.name}
 				</label>
 			))}
 		</SectionContentStyle>

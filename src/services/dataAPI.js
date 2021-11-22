@@ -16,4 +16,13 @@ const postSignUp = signUpBody => axiosBase.post('/sign-up', signUpBody);
 
 const postLogin = loginBody => axiosBase.post('/login', loginBody);
 
-export { postSignUp, postLogin };
+const getPlanOptions = (planType, token) =>
+	axiosBase.get(
+		`/plan-options?planType=${planType}`,
+		setAuthorization(token)
+	);
+
+const getProducts = token =>
+	axiosBase.get('/products', setAuthorization(token));
+
+export { postSignUp, postLogin, getPlanOptions, getProducts };

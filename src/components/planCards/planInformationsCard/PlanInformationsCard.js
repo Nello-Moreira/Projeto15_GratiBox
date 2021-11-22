@@ -1,56 +1,98 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import image03 from '../../../assets/image03.jpg';
+
 import WhiteCard from '../WhiteCard';
 import SectionTitle from '../SectionTitle';
 import SectionContentRadioInput from './SectionContentRadioInput';
 import SectionContentCheckboxInput from './SectionContentCheckboxInput';
 
+import SubscriptionContext from '../../../contexts/SubscriptionContext';
+import UserContext from '../../../contexts/UserContext';
+
+import { getPlanOptions, getProducts } from '../../../services/dataAPI';
+
 export default function PlanInformationsCard() {
+	const { user } = useContext(UserContext);
+	const { subscription, setSubscription } = useContext(SubscriptionContext);
 	const [openSections, setOpenSections] = useState({
 		plan: false,
 		delivery: false,
 		products: false,
 	});
 
-	const [planOptions, setPlanOptions] = useState([
-		{ option: 'Semanal', checked: true },
-		{ option: 'Mensal', checked: false },
-	]);
+	const [deliveryOptions, setDeliveryOptions] = useState([]);
 
-	const [deliveryOptions, setDeliveryOptions] = useState([
-		{ option: 'Segunda-feira', checked: true },
-		{ option: 'Quarta-feira', checked: false },
-		{ option: 'Sexta-feira', checked: false },
-	]);
-
-	const [productOptions, setProductOptions] = useState([
-		{ option: 'Chás', checked: true },
-		{ option: 'Incensos', checked: true },
-		{ option: 'Produtos Orgânicos', checked: true },
-	]);
+	const [productOptions, setProductOptions] = useState([]);
 
 	useEffect(() => {
-		const weekOptions = ['Segunda-feira', 'Quarta-feira', 'Sexta-feira'];
-		const monthOptions = ['Dia 1', 'Dia 10', 'Dia 20'];
-
-		if (planOptions.find(item => item.option === 'Semanal').checked) {
-			setDeliveryOptions(
-				deliveryOptions.map((item, i) => ({
-					...item,
-					option: weekOptions[i],
-				}))
+		getPlanOptions(subscription.planType, user.token)
+			.then(response => planOptionsHandler(response.data))
+			.catch(error =>
+				alert('Houve um erro. Por favor, recarregue a página.')
 			);
-			return;
-		}
-		setDeliveryOptions(
-			deliveryOptions.map((item, i) => ({
-				...item,
-				option: monthOptions[i],
-			}))
+
+		getProducts(user.token)
+			.then(response =>
+				setProductOptions(
+					response.data.map(product => {
+						return { name: product.name, checked: true };
+					})
+				)
+			)
+			.catch(error =>
+				alert('Houve um erro. Por favor, recarregue a página.')
+			);
+	}, []);
+
+	useEffect(() => {
+		const selectedOption = deliveryOptions.find(
+			element => element.checked === true
 		);
-	}, [planOptions]);
+
+		if (!selectedOption) return;
+
+		setSubscription({
+			...subscription,
+			deliveryOption: selectedOption.name,
+		});
+	}, [deliveryOptions]);
+
+	useEffect(() => {
+		const selectedOptions = productOptions.filter(
+			element => element.checked === true
+		);
+
+		setSubscription({
+			...subscription,
+			selectedProducts: selectedOptions.map(option => option.name),
+		});
+		console.log(subscription);
+	}, [productOptions]);
+
+	function planOptionsHandler(options) {
+		if (isNaN(options[0].name)) {
+			return setDeliveryOptions(
+				options.map(option => {
+					return {
+						option: option.name,
+						checked: false,
+						name: option.name,
+					};
+				})
+			);
+		}
+		return setDeliveryOptions(
+			options.map(option => {
+				return {
+					option: `Dia ${option.name}`,
+					checked: false,
+					name: option.name,
+				};
+			})
+		);
+	}
 
 	return (
 		<PlanInformationsCardStyle>
@@ -68,12 +110,9 @@ export default function PlanInformationsCard() {
 					Plano
 				</SectionTitle>
 
-				<SectionContentRadioInput
-					isOpen={openSections.plan}
-					sectionName={'plan'}
-					inputs={planOptions}
-					saveValue={setPlanOptions}
-				/>
+				<PlanType isOpen={openSections.plan}>
+					{subscription.planType}
+				</PlanType>
 			</section>
 
 			<section>
@@ -130,4 +169,17 @@ const PlanInformationsCardStyle = styled(WhiteCard)`
 		background-color: #e0d1ed9e;
 		border-radius: 5px;
 	}
+`;
+
+const PlanType = styled.p`
+	font-size: 18px;
+	font-weight: 400;
+	color: #4d65a8;
+	height: auto;
+	max-height: ${({ isOpen }) => (isOpen ? '50vh' : '0px')};
+	margin: ${({ isOpen }) => (isOpen ? '10px 0 0 10px' : '0px 0 0 10px')};
+	overflow-y: hidden;
+	opacity: ${({ isOpen }) => (isOpen ? '1' : '0')};
+	transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out,
+		margin 0.3s ease-in-out;
 `;
