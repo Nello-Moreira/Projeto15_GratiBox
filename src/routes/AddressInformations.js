@@ -39,9 +39,14 @@ export default function Address() {
 		}
 		setLoading(true);
 
-		postSubscription(subscription, user.token).then(response =>
-			navigate(routes.subscriber)
-		);
+		postSubscription({ ...subscription, id: user.id }, user.token)
+			.then(response => navigate(routes.subscriber))
+			.catch(error => {
+				alert(
+					'Houve um erro ao fazer a inscrição. Por favor, tente novamente'
+				);
+				navigate(routes.nonSubscriber);
+			});
 	}
 
 	return pageFirstLoad ? (

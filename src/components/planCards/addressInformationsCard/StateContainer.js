@@ -17,13 +17,14 @@ export default function StateContainer({
 	const [states, setStates] = useState([]);
 
 	useEffect(() => {
-		getStates(user.token).then(response =>
-			setStates(response.data.map(state => state.initials))
-		);
+		getStates(user.token).then(response => setStates(response.data));
 	}, []);
 
 	function clickHandler(event) {
-		setSelectedState(event.target.value);
+		const selectedState = states.find(
+			state => state.initials === event.target.value
+		);
+		setSelectedState(selectedState.id);
 		setIsOpen(false);
 	}
 
@@ -40,17 +41,20 @@ export default function StateContainer({
 			</SectionTitle>
 			<StatesList isOpen={isOpen}>
 				{states.map((state, i) => (
-					<StateOption isSelected={state === selectedState} key={i}>
+					<StateOption
+						isSelected={state.id === selectedState}
+						key={i}
+					>
 						<label htmlFor='state'>
 							<input
 								type='radio'
-								name={state}
-								value={state}
-								checked={state === selectedState}
+								name={state.name}
+								value={state.initials}
+								checked={state.id === selectedState}
 								onChange={clickHandler}
-								id={state}
+								id={state.name}
 							/>{' '}
-							{state}
+							{state.initials}
 						</label>
 					</StateOption>
 				))}

@@ -50,7 +50,6 @@ export default function PlanInformationsCard() {
 			.catch(error =>
 				alert('Houve um erro. Por favor, recarregue a página.')
 			);
-		console.log(subscription);
 	}, []);
 
 	useEffect(() => {
@@ -64,7 +63,6 @@ export default function PlanInformationsCard() {
 			...subscription,
 			deliveryOption: selectedOption.id,
 		});
-		console.log(subscription);
 	}, [deliveryOptions]);
 
 	useEffect(() => {
@@ -76,7 +74,6 @@ export default function PlanInformationsCard() {
 			...subscription,
 			selectedProducts: selectedOptions.map(option => option.id),
 		});
-		console.log(subscription);
 	}, [productOptions]);
 
 	function planOptionsHandler(options) {
