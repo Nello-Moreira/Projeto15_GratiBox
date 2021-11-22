@@ -24,7 +24,7 @@ export default function WeeklyPlanSubscribeCard() {
 			<DefaultButton
 				onClick={() => {
 					setSubscription({
-						...setSubscription,
+						...subscription,
 						planType: 'Semanal',
 					});
 					navigate(routes.planInformations);

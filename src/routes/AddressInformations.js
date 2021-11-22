@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useState, useContext, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
+import SubscriptionContext from '../contexts/SubscriptionContext';
 import routes from './routes';
 
 import CircleLoader from '../components/loaders/CircleLoader';
@@ -15,15 +16,10 @@ import DefaultButton from '../components/buttons/DefaultButton';
 export default function Address() {
 	const [pageFirstLoad, setPageFirstLoad] = useState(true);
 	const [loading, setLoading] = useState(false);
-	const [address, setAddress] = useState({
-		name: '',
-		streetName: '',
-		zipCode: '',
-		city: '',
-		state: '',
-	});
+
 	const navigate = useNavigate();
 	const { user } = useContext(UserContext);
+	const { subscription } = useContext(SubscriptionContext);
 
 	useEffect(() => {
 		if (!user.token) {
@@ -34,7 +30,7 @@ export default function Address() {
 
 	function subscribe() {
 		if (loading) return;
-		if (Object.values(address).includes('')) {
+		if (Object.values(subscription.address).includes(null)) {
 			alert('Preencha todos os campos');
 			return;
 		}
@@ -52,11 +48,7 @@ export default function Address() {
 				“Agradecer é arte de atrair coisas boas”
 			</PageSubTitle>
 
-			<AddressInformationsCard
-				loading={loading}
-				address={address}
-				setAddress={setAddress}
-			/>
+			<AddressInformationsCard loading={loading} />
 
 			<NextPageButton onClick={subscribe}>Finalizar</NextPageButton>
 		</PageContainer>

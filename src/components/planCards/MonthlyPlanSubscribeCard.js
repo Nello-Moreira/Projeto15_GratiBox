@@ -27,7 +27,7 @@ export default function MonthlyPlanSubscribeCard() {
 			<DefaultButton
 				onClick={() => {
 					setSubscription({
-						...setSubscription,
+						...subscription,
 						planType: 'Mensal',
 					});
 					navigate(routes.planInformations);

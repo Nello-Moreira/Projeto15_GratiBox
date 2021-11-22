@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import { useContext } from 'react';
+
+import SubscriptionContext from '../../../contexts/SubscriptionContext';
 
 import image03 from '../../../assets/image03.jpg';
 import WhiteCard from '../WhiteCard';
@@ -6,21 +9,23 @@ import AddressInput from '../../inputsAndForms/AddressInput';
 import CityInputsContainer from '../../containers/CityInputsContainer';
 import StateContainer from './StateContainer';
 
-export default function AddressInformationsCard({
-	loading,
-	address,
-	setAddress,
-}) {
+export default function AddressInformationsCard({ loading }) {
+	const { subscription, setSubscription } = useContext(SubscriptionContext);
+
+	function saveNewAddressState(field, value) {
+		if (loading) return;
+		subscription.address[field] = value;
+		setSubscription({ ...subscription });
+	}
+
 	return (
 		<WhiteCard>
 			<img src={image03} alt='imagem ilustrativa do plano' />
 			<AddressInput
 				name='name'
-				value={address.name}
+				value={subscription.address.name}
 				onChange={event =>
-					loading
-						? null
-						: setAddress({ ...address, name: event.target.value })
+					saveNewAddressState('name', event.target.value)
 				}
 				placeholder='Nome completo'
 				type='text'
@@ -30,14 +35,9 @@ export default function AddressInformationsCard({
 			/>
 			<AddressInput
 				name='zipCode'
-				value={address.zipCode}
+				value={subscription.address.zipCode}
 				onChange={event =>
-					loading
-						? null
-						: setAddress({
-								...address,
-								zipCode: event.target.value,
-						  })
+					saveNewAddressState('zipCode', event.target.value)
 				}
 				placeholder='Cep'
 				type='text'
@@ -47,14 +47,9 @@ export default function AddressInformationsCard({
 			/>
 			<AddressInput
 				name='streetName'
-				value={address.streetName}
+				value={subscription.address.streetName}
 				onChange={event =>
-					loading
-						? null
-						: setAddress({
-								...address,
-								streetName: event.target.value,
-						  })
+					saveNewAddressState('streetName', event.target.value)
 				}
 				placeholder='Endereço de entrega'
 				type='text'
@@ -65,14 +60,9 @@ export default function AddressInformationsCard({
 			<CityInputsContainer>
 				<CityInput
 					name='city'
-					value={address.city}
+					value={subscription.address.city}
 					onChange={event =>
-						loading
-							? null
-							: setAddress({
-									...address,
-									city: event.target.value,
-							  })
+						saveNewAddressState('city', event.target.value)
 					}
 					placeholder='Cidade'
 					type='text'
@@ -82,9 +72,9 @@ export default function AddressInformationsCard({
 				/>
 
 				<StateContainer
-					selectedState={address.state}
+					selectedState={subscription.address.state}
 					setSelectedState={state =>
-						setAddress({ ...address, state: state })
+						saveNewAddressState('state', state)
 					}
 					loading={loading}
 				/>
