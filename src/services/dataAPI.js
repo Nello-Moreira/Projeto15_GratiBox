@@ -25,4 +25,6 @@ const getPlanOptions = (planType, token) =>
 const getProducts = token =>
 	axiosBase.get('/products', setAuthorization(token));
 
-export { postSignUp, postLogin, getPlanOptions, getProducts };
+const getStates = token => axiosBase.get('/states', setAuthorization(token));
+
+export { postSignUp, postLogin, getPlanOptions, getProducts, getStates };

@@ -1,23 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
+import UserContext from '../../../contexts/UserContext';
+
 import SectionTitle from '../SectionTitle';
+
+import { getStates } from '../../../services/dataAPI';
 
 export default function StateContainer({
 	loading,
 	selectedState,
 	setSelectedState,
 }) {
+	const { user } = useContext(UserContext);
 	const [isOpen, setIsOpen] = useState(false);
-	const [states, setStates] = useState([
-		'RJ',
-		'SP',
-		'MG',
-		'ES',
-		'AM',
-		'BA',
-		'PI',
-	]);
+	const [states, setStates] = useState([]);
+
+	useEffect(() => {
+		getStates(user.token).then(response =>
+			setStates(response.data.map(state => state.initials))
+		);
+	}, []);
 
 	function clickHandler(event) {
 		setSelectedState(event.target.value);

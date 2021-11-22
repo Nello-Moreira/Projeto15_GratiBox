@@ -37,7 +37,12 @@ export default function PlanInformationsCard() {
 			.then(response =>
 				setProductOptions(
 					response.data.map(product => {
-						return { name: product.name, checked: true };
+						return {
+							name: product.name,
+							checked: subscription.selectedProducts.includes(
+								product.name
+							),
+						};
 					})
 				)
 			)
@@ -76,7 +81,7 @@ export default function PlanInformationsCard() {
 				options.map(option => {
 					return {
 						option: option.name,
-						checked: false,
+						checked: subscription.deliveryOption === option.name,
 						name: option.name,
 					};
 				})
@@ -86,7 +91,7 @@ export default function PlanInformationsCard() {
 			options.map(option => {
 				return {
 					option: `Dia ${option.name}`,
-					checked: false,
+					checked: subscription.deliveryOption === option.name,
 					name: option.name,
 				};
 			})
