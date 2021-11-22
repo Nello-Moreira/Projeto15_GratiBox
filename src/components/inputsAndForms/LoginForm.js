@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import routes from '../../routes/routes';
+
+import UserContext from '../../contexts/UserContext';
 
 import LoginFormStyle from './LoginFormStyle';
 import TextInput from './TextInput';
 import DefaultButton from '../buttons/DefaultButton';
 
+import { postLogin } from '../../services/dataAPI';
+import { loginErrors } from '../../helpers/responseErrors';
+
 export default function LoginForm({ loading, setLoading }) {
+	const { setUser } = useContext(UserContext);
+	const navigate = useNavigate();
 	const [inputs, setInputs] = useState({
 		email: '',
 		password: '',
@@ -24,6 +33,15 @@ export default function LoginForm({ loading, setLoading }) {
 
 		setLoading(true);
 
+		postLogin(inputs)
+			.then(response => {
+				setUser(response.data);
+				if (response.data.planType === 'notSubscribed') {
+					return navigate(routes.nonSubscriber);
+				}
+				navigate(routes.subscriber);
+			})
+			.catch(error => alert(loginErrors(error)));
 		setLoading(false);
 	}
 

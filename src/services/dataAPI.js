@@ -14,4 +14,6 @@ const setAuthorization = token => {
 
 const postSignUp = signUpBody => axiosBase.post('/sign-up', signUpBody);
 
-export { postSignUp };
+const postLogin = loginBody => axiosBase.post('/login', loginBody);
+
+export { postSignUp, postLogin };
