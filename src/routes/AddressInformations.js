@@ -5,6 +5,7 @@ import { useState, useContext, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
 import routes from './routes';
 
+import CircleLoader from '../components/loaders/CircleLoader';
 import PageContainer from '../components/containers/PageContainer';
 import PageTitle from '../components/titles/PageTitle';
 import PageSubTitle from '../components/titles/PageSubTitle';
@@ -12,6 +13,7 @@ import AddressInformationsCard from '../components/planCards/addressInformations
 import DefaultButton from '../components/buttons/DefaultButton';
 
 export default function Address() {
+	const [pageFirstLoad, setPageFirstLoad] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const [address, setAddress] = useState({
 		name: '',
@@ -27,6 +29,7 @@ export default function Address() {
 		if (!user.token) {
 			navigate(routes.home);
 		}
+		setPageFirstLoad(false);
 	}, [user.token]);
 
 	function subscribe() {
@@ -39,7 +42,9 @@ export default function Address() {
 		navigate(routes.subscriber);
 	}
 
-	return (
+	return pageFirstLoad ? (
+		<CircleLoader />
+	) : (
 		<PageContainer>
 			<PageTitle>Bom te ver por aqui, {user.name}.</PageTitle>
 
