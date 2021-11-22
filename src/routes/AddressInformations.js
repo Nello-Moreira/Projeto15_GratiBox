@@ -13,6 +13,8 @@ import PageSubTitle from '../components/titles/PageSubTitle';
 import AddressInformationsCard from '../components/planCards/addressInformationsCard/AddressInformationsCard';
 import DefaultButton from '../components/buttons/DefaultButton';
 
+import { postSubscription } from '../services/dataAPI';
+
 export default function Address() {
 	const [pageFirstLoad, setPageFirstLoad] = useState(true);
 	const [loading, setLoading] = useState(false);
@@ -30,12 +32,16 @@ export default function Address() {
 
 	function subscribe() {
 		if (loading) return;
-		if (Object.values(subscription.address).includes(null)) {
+
+		if (Object.values(subscription.address).includes('')) {
 			alert('Preencha todos os campos');
 			return;
 		}
 		setLoading(true);
-		navigate(routes.subscriber);
+
+		postSubscription(subscription, user.token).then(response =>
+			navigate(routes.subscriber)
+		);
 	}
 
 	return pageFirstLoad ? (

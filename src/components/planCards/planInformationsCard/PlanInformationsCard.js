@@ -40,8 +40,9 @@ export default function PlanInformationsCard() {
 						return {
 							name: product.name,
 							checked: subscription.selectedProducts.includes(
-								product.name
+								product.id
 							),
+							id: product.id,
 						};
 					})
 				)
@@ -49,6 +50,7 @@ export default function PlanInformationsCard() {
 			.catch(error =>
 				alert('Houve um erro. Por favor, recarregue a página.')
 			);
+		console.log(subscription);
 	}, []);
 
 	useEffect(() => {
@@ -60,8 +62,9 @@ export default function PlanInformationsCard() {
 
 		setSubscription({
 			...subscription,
-			deliveryOption: selectedOption.name,
+			deliveryOption: selectedOption.id,
 		});
+		console.log(subscription);
 	}, [deliveryOptions]);
 
 	useEffect(() => {
@@ -71,8 +74,9 @@ export default function PlanInformationsCard() {
 
 		setSubscription({
 			...subscription,
-			selectedProducts: selectedOptions.map(option => option.name),
+			selectedProducts: selectedOptions.map(option => option.id),
 		});
+		console.log(subscription);
 	}, [productOptions]);
 
 	function planOptionsHandler(options) {
@@ -81,8 +85,8 @@ export default function PlanInformationsCard() {
 				options.map(option => {
 					return {
 						option: option.name,
-						checked: subscription.deliveryOption === option.name,
-						name: option.name,
+						checked: subscription.deliveryOption === option.id,
+						id: option.id,
 					};
 				})
 			);
@@ -91,8 +95,8 @@ export default function PlanInformationsCard() {
 			options.map(option => {
 				return {
 					option: `Dia ${option.name}`,
-					checked: subscription.deliveryOption === option.name,
-					name: option.name,
+					checked: subscription.deliveryOption === option.id,
+					id: option.id,
 				};
 			})
 		);

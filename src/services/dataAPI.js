@@ -27,4 +27,14 @@ const getProducts = token =>
 
 const getStates = token => axiosBase.get('/states', setAuthorization(token));
 
-export { postSignUp, postLogin, getPlanOptions, getProducts, getStates };
+const postSubscription = (subscriptionBody, token) =>
+	axiosBase.post('/subscribe', subscriptionBody, setAuthorization(token));
+
+export {
+	postSignUp,
+	postLogin,
+	getPlanOptions,
+	getProducts,
+	getStates,
+	postSubscription,
+};
