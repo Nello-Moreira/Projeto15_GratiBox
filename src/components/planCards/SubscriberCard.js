@@ -11,10 +11,10 @@ import { getPlanInformations } from '../../services/dataAPI';
 export default function SubscriberCard() {
 	const { user } = useContext(UserContext);
 	const [planInformations, setPlanInformations] = useState({
-		subscription_date: null,
-		type: null,
+		subscriptionDate: null,
+		planType: null,
 		nextDeliveries: [],
-		products: [],
+		productsList: [],
 	});
 
 	useEffect(() => {
@@ -37,10 +37,10 @@ export default function SubscriberCard() {
 			<img src={image03} alt='imagem ilustrativa do plano' />
 
 			<h3>Plano:</h3>
-			<p>{planInformations.type}</p>
+			<p>{planInformations.planType}</p>
 
 			<h3>Data da assinatura:</h3>
-			<p>{formatDate(planInformations.subscription_date)}</p>
+			<p>{formatDate(planInformations.subscriptionDate)}</p>
 
 			<h3>Próximas entregas:</h3>
 			<ul>
@@ -51,7 +51,7 @@ export default function SubscriberCard() {
 
 			<h3>Produtos:</h3>
 			<ul>
-				{planInformations.products.map(product => (
+				{planInformations.productsList.map(product => (
 					<li key={product}>{product}</li>
 				))}
 			</ul>
