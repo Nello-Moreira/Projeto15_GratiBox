@@ -16,14 +16,9 @@ const postSignUp = signUpBody => axiosBase.post('/sign-up', signUpBody);
 
 const postLogin = loginBody => axiosBase.post('/login', loginBody);
 
-const getPlanOptions = (planType, token) =>
-	axiosBase.get(
-		`/plan-options?planType=${planType}`,
-		setAuthorization(token)
-	);
+const getPlanOptions = () => axiosBase.get('/plan-options');
 
-const getProducts = token =>
-	axiosBase.get('/products', setAuthorization(token));
+const getProducts = () => axiosBase.get('/products');
 
 const getStates = token => axiosBase.get('/states', setAuthorization(token));
 

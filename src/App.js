@@ -24,10 +24,11 @@ export default function App() {
 		token: null,
 		planType: null,
 	});
+
 	const [subscription, setSubscription] = useState({
-		planType: null,
-		deliveryOption: null,
-		selectedProducts: [],
+		planTypeId: null,
+		deliveryOptionId: null,
+		productsList: [],
 		address: {
 			name: '',
 			streetName: '',

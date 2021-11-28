@@ -1,8 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import UserContext from '../contexts/UserContext';
 
-import CircleLoader from '../components/loaders/CircleLoader';
 import PageContainer from '../components/containers/PageContainer';
 import PageTitle from '../components/titles/PageTitle';
 import PageSubTitle from '../components/titles/PageSubTitle';

@@ -22,35 +22,45 @@ export default function PlanInformationsCard() {
 		products: false,
 	});
 
+	const [plans, setPlans] = useState([]);
+
+	const [planOptions, setPlanOptions] = useState([]);
+
 	const [deliveryOptions, setDeliveryOptions] = useState([]);
 
 	const [productOptions, setProductOptions] = useState([]);
 
 	useEffect(() => {
-		getPlanOptions(subscription.planType, user.token)
+		getPlanOptions()
 			.then(response => planOptionsHandler(response.data))
 			.catch(error =>
 				alert('Houve um erro. Por favor, recarregue a página.')
 			);
 
 		getProducts(user.token)
-			.then(response =>
-				setProductOptions(
-					response.data.map(product => {
-						return {
-							name: product.name,
-							checked: subscription.selectedProducts.includes(
-								product.id
-							),
-							id: product.id,
-						};
-					})
-				)
-			)
+			.then(response => productsOptionsHandler(response.data))
 			.catch(error =>
 				alert('Houve um erro. Por favor, recarregue a página.')
 			);
 	}, []);
+
+	useEffect(() => {
+		const selectedOption = planOptions.find(
+			element => element.checked === true
+		);
+
+		if (!selectedOption) return;
+
+		deliveryOptionsHandler(
+			plans.find(plan => plan.planTypeId === selectedOption.id)
+		);
+
+		setSubscription({
+			...subscription,
+			planTypeId: selectedOption.id,
+			deliveryOptionId: null,
+		});
+	}, [planOptions]);
 
 	useEffect(() => {
 		const selectedOption = deliveryOptions.find(
@@ -61,7 +71,7 @@ export default function PlanInformationsCard() {
 
 		setSubscription({
 			...subscription,
-			deliveryOption: selectedOption.id,
+			deliveryOptionId: selectedOption.id,
 		});
 	}, [deliveryOptions]);
 
@@ -72,28 +82,45 @@ export default function PlanInformationsCard() {
 
 		setSubscription({
 			...subscription,
-			selectedProducts: selectedOptions.map(option => option.id),
+			productsList: selectedOptions.map(option => option.id),
 		});
 	}, [productOptions]);
 
-	function planOptionsHandler(options) {
-		if (isNaN(options[0].name)) {
-			return setDeliveryOptions(
-				options.map(option => {
-					return {
-						option: option.name,
-						checked: subscription.deliveryOption === option.id,
-						id: option.id,
-					};
-				})
-			);
-		}
-		return setDeliveryOptions(
-			options.map(option => {
+	function planOptionsHandler(plans) {
+		setPlans(plans);
+
+		setPlanOptions(
+			plans.map(plan => {
 				return {
-					option: `Dia ${option.name}`,
-					checked: subscription.deliveryOption === option.id,
+					id: plan.planTypeId,
+					option: plan.planType,
+					checked: subscription.planTypeId === plan.planTypeId,
+				};
+			})
+		);
+	}
+
+	function deliveryOptionsHandler(plan) {
+		return setDeliveryOptions(
+			plan.deliveryOptions.map(option => {
+				return {
 					id: option.id,
+					option: isNaN(option.name)
+						? option.name
+						: `Dia ${option.name}`,
+					checked: subscription.deliveryOptionId === option.id,
+				};
+			})
+		);
+	}
+
+	function productsOptionsHandler(products) {
+		setProductOptions(
+			products.map(product => {
+				return {
+					id: product.id,
+					name: product.name,
+					checked: subscription.productsList.includes(product.id),
 				};
 			})
 		);
@@ -115,9 +142,12 @@ export default function PlanInformationsCard() {
 					Plano
 				</SectionTitle>
 
-				<PlanType isOpen={openSections.plan}>
-					{subscription.planType}
-				</PlanType>
+				<SectionContentRadioInput
+					isOpen={openSections.plan}
+					sectionName={'planType'}
+					inputs={planOptions}
+					saveValue={setPlanOptions}
+				/>
 			</section>
 
 			<section>
@@ -133,12 +163,18 @@ export default function PlanInformationsCard() {
 					Entrega
 				</SectionTitle>
 
-				<SectionContentRadioInput
-					isOpen={openSections.delivery}
-					sectionName={'delivery'}
-					inputs={deliveryOptions}
-					saveValue={setDeliveryOptions}
-				/>
+				{deliveryOptions.length === 0 ? (
+					<Warning isOpen={openSections.delivery}>
+						Selecione um tipo de plano
+					</Warning>
+				) : (
+					<SectionContentRadioInput
+						isOpen={openSections.delivery}
+						sectionName={'delivery'}
+						inputs={deliveryOptions}
+						saveValue={setDeliveryOptions}
+					/>
+				)}
 			</section>
 
 			<section>
@@ -176,8 +212,8 @@ const PlanInformationsCardStyle = styled(WhiteCard)`
 	}
 `;
 
-const PlanType = styled.p`
-	font-size: 18px;
+const Warning = styled.p`
+	font-size: 16px;
 	font-weight: 400;
 	color: #4d65a8;
 	height: auto;

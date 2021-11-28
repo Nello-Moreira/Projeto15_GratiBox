@@ -19,13 +19,13 @@ export default function PlanInformations() {
 	const navigate = useNavigate();
 
 	function checkSelectedPlanInformations() {
-		if (!subscription.planType) {
+		if (!subscription.planTypeId) {
 			return alert('Selecione um tipo de plano');
 		}
-		if (!subscription.deliveryOption) {
+		if (!subscription.deliveryOptionId) {
 			return alert('Selecione uma opção de entrega');
 		}
-		if (subscription.selectedProducts.length === 0) {
+		if (subscription.productsList.length === 0) {
 			return alert('Selecione ao menos um produto');
 		}
 		navigate(routes.addressInformations);
