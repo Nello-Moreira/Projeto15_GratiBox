@@ -30,11 +30,11 @@ export default function App() {
 		deliveryOptionId: null,
 		productsList: [],
 		address: {
-			name: '',
+			receiverName: '',
 			streetName: '',
 			zipCode: '',
 			city: '',
-			state: '',
+			stateId: '',
 		},
 	});
 	return (
