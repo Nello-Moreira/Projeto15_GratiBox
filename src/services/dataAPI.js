@@ -30,8 +30,9 @@ const getStates = token => axiosBase.get('/states', setAuthorization(token));
 const postSubscription = (subscriptionBody, token) =>
 	axiosBase.post('/subscribe', subscriptionBody, setAuthorization(token));
 
-const getPlanInformations = ({ id, token }) =>
-	axiosBase.get(`/plan-informations?userId=${id}`, setAuthorization(token));
+const getPlanInformations = ({ token }) =>
+	axiosBase.get(`/plan-informations`, setAuthorization(token));
+
 export {
 	postSignUp,
 	postLogin,
