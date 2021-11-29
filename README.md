@@ -24,8 +24,16 @@ You can access the [_project url_](https://gratibox-ivory.vercel.app/) and creat
 npm i
 ```
 
+-   Create a file called ".env" and write the following statement in it
+
+```
+REACT_APP_BASE_URL="http://localhost:8080/"
+```
+
+(8080 stands for the default port defined at back-end repository)
+
 -   Run on terminal: (at project's root directory)
 
 ```
- node config.js
+ npm start
 ```
