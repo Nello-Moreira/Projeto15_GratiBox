@@ -13,6 +13,7 @@ import PlanInformations from './routes/PlanInformations';
 import AddressInformations from './routes/AddressInformations';
 import Rating from './routes/Rating';
 import FeedbackDetails from './routes/FeedbackDetails';
+import ProtectedRoute from './routes/ProtectedRoute';
 
 import UserContext from './contexts/UserContext';
 import SubscriptionContext from './contexts/SubscriptionContext';
@@ -23,16 +24,17 @@ export default function App() {
 		token: null,
 		planType: null,
 	});
+
 	const [subscription, setSubscription] = useState({
-		planType: null,
-		deliveryOption: null,
-		selectedProducts: [],
+		planTypeId: null,
+		deliveryOptionId: null,
+		productsList: [],
 		address: {
-			name: '',
+			receiverName: '',
 			streetName: '',
 			zipCode: '',
 			city: '',
-			state: '',
+			stateId: '',
 		},
 	});
 	return (
@@ -50,29 +52,56 @@ export default function App() {
 
 							<Route
 								path={routes.subscriber}
-								element={<Subscriber />}
+								element={
+									<ProtectedRoute>
+										<Subscriber />
+									</ProtectedRoute>
+								}
 							/>
 
-							<Route path={routes.rating} element={<Rating />} />
+							<Route
+								path={routes.rating}
+								element={
+									<ProtectedRoute>
+										<Rating />
+									</ProtectedRoute>
+								}
+							/>
 
 							<Route
 								path={routes.feedbackDetails}
-								element={<FeedbackDetails />}
+								element={
+									<ProtectedRoute>
+										<FeedbackDetails />
+									</ProtectedRoute>
+								}
 							/>
 
 							<Route
 								path={routes.nonSubscriber}
-								element={<NonSubscriber />}
+								element={
+									<ProtectedRoute>
+										<NonSubscriber />
+									</ProtectedRoute>
+								}
 							/>
 
 							<Route
 								path={routes.planInformations}
-								element={<PlanInformations />}
+								element={
+									<ProtectedRoute>
+										<PlanInformations />
+									</ProtectedRoute>
+								}
 							/>
 
 							<Route
 								path={routes.addressInformations}
-								element={<AddressInformations />}
+								element={
+									<ProtectedRoute>
+										<AddressInformations />
+									</ProtectedRoute>
+								}
 							/>
 
 							<Route path={routes.home} element={<Home />} />

@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 import { useNavigate } from 'react-router-dom';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import UserContext from '../contexts/UserContext';
 import SubscriptionContext from '../contexts/SubscriptionContext';
 import routes from './routes';
 
-import CircleLoader from '../components/loaders/CircleLoader';
 import PageContainer from '../components/containers/PageContainer';
 import PageTitle from '../components/titles/PageTitle';
 import PageSubTitle from '../components/titles/PageSubTitle';
@@ -16,19 +15,11 @@ import DefaultButton from '../components/buttons/DefaultButton';
 import { postSubscription } from '../services/dataAPI';
 
 export default function Address() {
-	const [pageFirstLoad, setPageFirstLoad] = useState(true);
 	const [loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
 	const { user } = useContext(UserContext);
 	const { subscription } = useContext(SubscriptionContext);
-
-	useEffect(() => {
-		if (!user.token) {
-			navigate(routes.home);
-		}
-		setPageFirstLoad(false);
-	}, [user.token]);
 
 	function subscribe() {
 		if (loading) return;
@@ -49,9 +40,7 @@ export default function Address() {
 			});
 	}
 
-	return pageFirstLoad ? (
-		<CircleLoader />
-	) : (
+	return (
 		<PageContainer>
 			<PageTitle>Bom te ver por aqui, {user.name}.</PageTitle>
 

@@ -1,11 +1,8 @@
 import styled from 'styled-components';
 
-import { useNavigate } from 'react-router-dom';
-import { useState, useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import UserContext from '../contexts/UserContext';
-import routes from './routes';
 
-import CircleLoader from '../components/loaders/CircleLoader';
 import PageContainer from '../components/containers/PageContainer';
 import PageTitle from '../components/titles/PageTitle';
 import PageSubTitle from '../components/titles/PageSubTitle';
@@ -14,19 +11,8 @@ import DefaultButton from '../components/buttons/DefaultButton';
 
 export default function Subscriber() {
 	const { user } = useContext(UserContext);
-	const navigate = useNavigate();
-	const [pageFirstLoad, setPageFirstLoad] = useState(true);
 
-	useEffect(() => {
-		if (!user.token) {
-			navigate(routes.home);
-		}
-		setPageFirstLoad(false);
-	}, [user.token]);
-
-	return pageFirstLoad ? (
-		<CircleLoader />
-	) : (
+	return (
 		<PageContainer>
 			<PageTitle>Bom te ver por aqui, {user.name}.</PageTitle>
 

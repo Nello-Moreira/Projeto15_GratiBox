@@ -36,7 +36,7 @@ export default function LoginForm({ loading, setLoading }) {
 		postLogin(inputs)
 			.then(response => {
 				setUser(response.data);
-				if (response.data.planType === 'notSubscribed') {
+				if (!response.data.isSubscriber) {
 					return navigate(routes.nonSubscriber);
 				}
 				navigate(routes.subscriber);

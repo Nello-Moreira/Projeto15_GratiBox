@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
-import UserContext from '../../../contexts/UserContext';
+import SubscriptionContext from '../../../contexts/SubscriptionContext';
 
 import SectionTitle from '../SectionTitle';
 
@@ -9,22 +9,25 @@ import { getStates } from '../../../services/dataAPI';
 
 export default function StateContainer({
 	loading,
-	selectedState,
+	selectedStateId,
 	setSelectedState,
 }) {
-	const { user } = useContext(UserContext);
+	const { subscription, setSubscription } = useContext(SubscriptionContext);
 	const [isOpen, setIsOpen] = useState(false);
 	const [states, setStates] = useState([]);
 
 	useEffect(() => {
-		getStates(user.token).then(response => setStates(response.data));
+		getStates().then(response => setStates(response.data));
 	}, []);
 
 	function clickHandler(event) {
-		const selectedState = states.find(
-			state => state.initials === event.target.value
-		);
-		setSelectedState(selectedState.id);
+		setSubscription({
+			...subscription,
+			address: {
+				...subscription.address,
+				stateId: Number(event.target.value),
+			},
+		});
 		setIsOpen(false);
 	}
 
@@ -35,24 +38,27 @@ export default function StateContainer({
 		>
 			<SectionTitle
 				isOpen={isOpen}
-				changeState={() => setIsOpen(!isOpen)}
+				changeState={() => (loading ? null : setIsOpen(!isOpen))}
 			>
 				Estado
 			</SectionTitle>
+
 			<StatesList isOpen={isOpen}>
 				{states.map((state, i) => (
 					<StateOption
-						isSelected={state.id === selectedState}
+						isSelected={state.id === subscription.address.stateId}
 						key={i}
 					>
-						<label htmlFor='state'>
+						<label htmlFor={state.initials}>
 							<input
 								type='radio'
 								name={state.name}
-								value={state.initials}
-								checked={state.id === selectedState}
+								value={state.id}
+								checked={
+									state.id === subscription.address.stateId
+								}
 								onChange={clickHandler}
-								id={state.name}
+								id={state.initials}
 							/>{' '}
 							{state.initials}
 						</label>

@@ -22,10 +22,10 @@ export default function AddressInformationsCard({ loading }) {
 		<WhiteCard>
 			<img src={image03} alt='imagem ilustrativa do plano' />
 			<AddressInput
-				name='name'
-				value={subscription.address.name}
+				name='receiverName'
+				value={subscription.address.receiverName}
 				onChange={event =>
-					saveNewAddressState('name', event.target.value)
+					saveNewAddressState('receiverName', event.target.value)
 				}
 				placeholder='Nome completo'
 				type='text'
@@ -39,7 +39,7 @@ export default function AddressInformationsCard({ loading }) {
 				onChange={event =>
 					saveNewAddressState('zipCode', event.target.value)
 				}
-				placeholder='Cep'
+				placeholder='Cep (ex: 00000-000)'
 				type='text'
 				$autoComplete={true}
 				required={true}
@@ -71,13 +71,7 @@ export default function AddressInformationsCard({ loading }) {
 					$loading={loading}
 				/>
 
-				<StateContainer
-					selectedState={subscription.address.state}
-					setSelectedState={state =>
-						saveNewAddressState('state', state)
-					}
-					loading={loading}
-				/>
+				<StateContainer loading={loading} />
 			</CityInputsContainer>
 		</WhiteCard>
 	);

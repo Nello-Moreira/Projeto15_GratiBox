@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 import { useNavigate } from 'react-router';
-import { useState, useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import UserContext from '../contexts/UserContext';
 import SubscriptionContext from '../contexts/SubscriptionContext';
 import routes from './routes';
 
-import CircleLoader from '../components/loaders/CircleLoader';
 import PageContainer from '../components/containers/PageContainer';
 import PageTitle from '../components/titles/PageTitle';
 import PageSubTitle from '../components/titles/PageSubTitle';
@@ -18,31 +17,21 @@ export default function PlanInformations() {
 	const { subscription } = useContext(SubscriptionContext);
 
 	const navigate = useNavigate();
-	const [pageFirstLoad, setPageFirstLoad] = useState(true);
-
-	useEffect(() => {
-		if (!user.token) {
-			navigate(routes.home);
-		}
-		setPageFirstLoad(false);
-	}, [user.token]);
 
 	function checkSelectedPlanInformations() {
-		if (!subscription.planType) {
+		if (!subscription.planTypeId) {
 			return alert('Selecione um tipo de plano');
 		}
-		if (!subscription.deliveryOption) {
+		if (!subscription.deliveryOptionId) {
 			return alert('Selecione uma opção de entrega');
 		}
-		if (subscription.selectedProducts.length === 0) {
+		if (subscription.productsList.length === 0) {
 			return alert('Selecione ao menos um produto');
 		}
 		navigate(routes.addressInformations);
 	}
 
-	return pageFirstLoad ? (
-		<CircleLoader />
-	) : (
+	return (
 		<PageContainer>
 			<PageTitle>Bom te ver por aqui, {user.name}.</PageTitle>
 
